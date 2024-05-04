@@ -62,8 +62,6 @@
                 <li class="p-2 border-bottom">
                   <a href="#!" class="d-flex justify-content-between">
                     <div class="d-flex flex-row">
-                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-3.webp" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
                       <div class="pt-1">
                         <p class="fw-bold mb-0">Ashley Olsen</p>
                         <p class="small text-muted">Lorem ipsum dolor sit.</p>
@@ -75,7 +73,7 @@
                   </a>
                 </li>
 
-                
+
                 <li class="p-2 border-bottom">
                   <a href="#!" class="d-flex justify-content-between">
                     <div class="d-flex flex-row">
@@ -124,8 +122,9 @@
         </div>
 
         <div class="col-md-6 col-lg-7 col-xl-8">
-
+          <h5 class="font-weight-bold mb-3 text-center text-lg-start">Chat Géneral</h5>
           <ul class="list-unstyled">
+
             <li class="d-flex justify-content-between mb-4">
               <div class="card">
                 <div class="card-header d-flex justify-content-between p-3">
@@ -140,6 +139,7 @@
                 </div>
               </div>
             </li>
+
             <li class="d-flex justify-content-between mb-4">
               <div class="card w-100">
                 <div class="card-header d-flex justify-content-between p-3">
@@ -153,8 +153,8 @@
                   </p>
                 </div>
               </div>
-
             </li>
+
             <li class="d-flex justify-content-between mb-4">
               <div class="card">
                 <div class="card-header d-flex justify-content-between p-3">
@@ -169,14 +169,28 @@
                 </div>
               </div>
             </li>
-            <li class="bg-white mb-3">
-              <div data-mdb-input-init class="form-outline">
-                <textarea class="form-control" id="textAreaExample2" rows="4"></textarea>
-                <label class="form-label" for="textAreaExample2">Message</label>
+            <!-- Affichez les détails du message ici -->
+            <li v-for="message in messages" :key="message.id" class="d-flex justify-content-between mb-4">
+            
+              <div class="card">
+                <div class="card-header d-flex justify-content-between p-3">
+                  <p class="fw-bold mb-0">{{ message.sender }}</p>
+                  <p class="text-muted small mb-0"><i class="far fa-clock"></i> {{ message.timestamp }}</p>
+                </div>
+                <div class="card-body">
+                  <p class="mb-0">{{ message.content }}</p>
+                </div>
               </div>
             </li>
-            <button type="button" data-mdb-button-init data-mdb-ripple-init
-              class="btn btn-info btn-rounded float-end">Send</button>
+
+            <li class="bg-white mb-3">
+              <div data-mdb-input-init class="form-outline">
+                <textarea v-model="message_send" class="form-control" id="textAreaExample2" rows="4"></textarea>
+                <label class="form-label" for="textAreaExample2">Votre message</label>
+              </div>
+            </li>
+            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-rounded float-end"
+              @click="send_message">Envoyer</button>
           </ul>
 
         </div>
@@ -197,21 +211,41 @@ export default {
   },
   data() {
     return {
-      responseData: null, // Pour stocker les données de la réponse API
-      error: null // Pour stocker les erreurs de l'appel API
+      message_send: null,
+      messages: [],
+      error: null
     };
   },
   mounted() {
     // Appel de l'API lorsque le composant est monté
-    this.fetchData();
+    this.subscribe();
   },
   methods: {
-    fetchData() {
-      // Exemple d'appel API GET
-      axios.get('https://api.example.com/data')
+    subscribe() {
+      axios.get('http://api.example.com/subscribe/')
         .then(response => {
           // Succès de l'appel API, mettre à jour les données
-          this.responseData = response.data;
+          this.message_send = response.data;
+          console.log(this.message_send);
+        })
+        .catch(error => {
+          // Gestion des erreurs de l'appel API
+          this.error = error;
+        });
+
+      // Utilisation de `this.$socket` pour la connexion WebSocket
+      // this.$socket.onmessage = (message) => {
+      //   const parsedMessage = JSON.parse(message.data);
+      //   this.messages.push(parsedMessage);
+      // };
+    },
+    send_message() {
+      console.log("message envoyé : " + this.message_send);
+      axios.post('http://api.example.com/send_message/', { message: this.message_send })
+        .then(response => {
+          // Succès de l'appel API, mettre à jour les données
+          this.message_send = response.data;
+          console.log(this.message_send);
         })
         .catch(error => {
           // Gestion des erreurs de l'appel API
@@ -220,6 +254,7 @@ export default {
     }
   }
 }
+
 </script>
 
 

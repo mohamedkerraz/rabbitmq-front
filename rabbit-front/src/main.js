@@ -1,5 +1,16 @@
-import { createApp } from 'vue'
-import "bootstrap/dist/css/bootstrap.min.css";
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+// import VueSocketIO from 'vue-socket.io';
+// import SocketIO from 'socket.io-client';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-createApp(App).mount('#app')
+const app = createApp(App);
+
+// app.use(
+//   new VueSocketIO({
+//     debug: true,
+//     connection: SocketIO('ws://api.example.com/'),
+//   })
+// );
+
+app.mount('#app');
