@@ -3,7 +3,7 @@ from controleur.user import create_user, select_user
 user_blueprint = Blueprint("user", __name__)
 
 @user_blueprint.route("/user/", methods=["GET"])
-def send_ping_user():
+def ping():
     return "ok"
 
 @user_blueprint.route("/user/", methods=["POST"])
