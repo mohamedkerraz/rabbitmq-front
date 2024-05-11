@@ -12,5 +12,19 @@ module.exports = defineConfig({
         }
       }
     }
+  },
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        assert: require.resolve("assert/"),
+        util: require.resolve("util/"),
+        querystring: require.resolve("querystring-es3"),
+        net: require.resolve("net-browserify"),
+        tls: require.resolve("tls"),
+        stream: require.resolve("stream-browserify")
+      }
+    }
   }
 });
+
+

@@ -5,17 +5,17 @@ from controleur.rabbitmq import create_queue
 
 rabbitmq_blueprint = Blueprint("rabbitmq", __name__)
 
-@rabbitmq_blueprint.route("/queue/", methods=["POST"])
+@rabbitmq_blueprint.route("/rabbitmq/queue/", methods=["POST"])
 def send_create_queue():
     results = create_queue()
     return jsonify(results)
 
-@rabbitmq_blueprint.route("/queue/<queue_name>/", methods=["DELETE"])
+@rabbitmq_blueprint.route("/rabbitmq/queue/<queue_name>/", methods=["DELETE"])
 def send_delete_queue(queue_name):
     results = delete_queue(queue_name)
     return jsonify(results)
 
-@rabbitmq_blueprint.route("/message/<queue_name>/", methods=["POST"])
+@rabbitmq_blueprint.route("/rabbitmq/message/<queue_name>/", methods=["POST"])
 def send_post_message(queue_name):
     try:
         message_data = request.json
