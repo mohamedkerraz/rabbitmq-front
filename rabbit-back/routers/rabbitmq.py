@@ -5,9 +5,9 @@ from controleur.rabbitmq import create_queue
 
 rabbitmq_blueprint = Blueprint("rabbitmq", __name__)
 
-@rabbitmq_blueprint.route("/rabbitmq/queue/", methods=["POST"])
-def send_create_queue():
-    results = create_queue()
+@rabbitmq_blueprint.route("/rabbitmq/queue/<queue_name>/", methods=["POST"])
+def send_create_queue(queue_name):
+    results = create_queue(queue_name)
     return jsonify(results)
 
 @rabbitmq_blueprint.route("/rabbitmq/queue/<queue_name>/", methods=["DELETE"])
