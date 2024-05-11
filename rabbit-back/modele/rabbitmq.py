@@ -18,9 +18,8 @@ class RabbitMQ:
     def close(self):
         self.connection.close()
 
-    def create_queue(self):
+    def create_queue(self,queue_name):
         try:
-            queue_name = str(uuid.uuid4())
             self.connect()
             channel = self.connection.channel()
             channel.queue_declare(queue=queue_name)

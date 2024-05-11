@@ -9,8 +9,15 @@ my_rabbitMQ = RabbitMQ(
     password = os.environ.get('RABBITMQ_PASSWORD')
 )
 
-def create_queue():
-    return my_rabbitMQ.create_queue()
+def create_queue(queue_name):
+    validity, message = is_valid_queue_name(queue_name)
+    if not validity:
+        return {
+            "code": 400,
+            "message": message,
+            "success": False
+        }
+    return my_rabbitMQ.create_queue(queue_name)
 
 def delete_queue(queue_name):
     validity, message = is_valid_queue_name(queue_name)

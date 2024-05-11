@@ -10,3 +10,6 @@ def create_user(user_data):
 def select_user(id):
     return user.select_user(id)
 
+def select_all_user():
+    return user.select_all_user()
+

@@ -46,3 +46,21 @@ class User:
             "user": rows[0],
             "success": True
         }
+
+    def select_all_user(self):
+
+        conn = sqlite3.connect('user.db')
+
+        cursor = conn.cursor()
+        cursor.execute('''SELECT * FROM users''')
+        rows = cursor.fetchall()
+        users = []
+        for row in rows:
+            users.append(row)
+        return {
+            "code": 200,
+            "message": "Users",
+            "user": users,
+            "success": True
+        }
+

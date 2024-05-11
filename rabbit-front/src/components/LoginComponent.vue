@@ -14,6 +14,7 @@ export default {
     return {
       messages: [],
       events:[],
+      queue_name: 'd118b99a-9e74-44bd-b1c0-f7a7e017e1fd'
     };
   },
   created() {
@@ -25,13 +26,8 @@ export default {
       this.messages.push(message);
       console.log(message)
     });
-    this.socket.onAny((eventName, ...args) => {
-      console.log(args)
-      console.log(eventName)
-      this.events.push(eventName);
-    });
     // Demander au serveur Flask d'envoyer les messages
-    this.socket.emit('get_messages');
+    this.socket.emit('get_messages', this.queue_name);
   }
 };
 </script>
